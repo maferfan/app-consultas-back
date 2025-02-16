@@ -1,0 +1,21 @@
+const express = require('express')
+const app = express()
+const dotenv = require('dotenv')
+const user = require('./routes/user.route')
+const agendamento = require('./routes/agendamento.route')
+const db = require('./database/db')
+
+//DB-ENV
+dotenv.config()
+db()
+
+//API
+app.use(express.json())
+app.use(user)
+app.use(agendamento)
+
+
+
+app.listen(8082, () => {
+  console.log("Servidor rodando em porta 8081.");
+});
