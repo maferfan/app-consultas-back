@@ -1,7 +1,8 @@
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const fs = require("fs");
+const path = require("path");
 const register = async function (req, res) {
   try {
     const {
@@ -80,18 +81,32 @@ const users = async function (req, res) {
   }
 };
 
+function verificarImagem(url) {
+  const imagePath = path.join(__dirname, "../uploads", url);
+  if (fs.existsSync(imagePath)) {
+     return url
+  } else {
+     return null;
+  }
+}
+
 const consultarMedico = async function (req, res) {
   try {
     const { nome, especialidade } = req.query;
     const filtro = { type: "Médico" };
 
-    if (nome) filtro.nome = { $regex: new RegExp(nome, "i") };;
-    if (especialidade) filtro.especialidade = { $regex: new RegExp(especialidade, "i") };;
+    if (nome) filtro.nome = { $regex: new RegExp(nome, "i") };
+    if (especialidade)
+      filtro.especialidade = { $regex: new RegExp(especialidade, "i") };
     const getDoc = await User.find(filtro).select("-senha, -confirmarSenha");
-
+    getDoc.forEach((i) => {
+      if (i.fotoPerfil) {
+        i.fotoPerfil = verificarImagem(i.fotoPerfil.slice(8));
+      }
+    });
     res.status(200).json(getDoc);
   } catch (error) {
-    consoler.log(error);
+    console.log(error);
     res.status(500).json({ error: "Erro ao encontrar este médico." });
   }
 };
