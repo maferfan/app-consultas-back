@@ -15,7 +15,12 @@ app.use(express.json())
 app.use('/uploads', express.static('uploads'));
 app.use(user)
 app.use(agendamento)
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:8081",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true 
+}));
 
 
 app.listen(8082, () => {
