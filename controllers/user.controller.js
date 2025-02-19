@@ -53,13 +53,13 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json("User not exists");
+      return res.status(400).json({ error: "Email não existente." });
     }
 
     const isPasswordExists = await bcrypt.compare(senha, user.senha);
 
     if (!isPasswordExists) {
-      return res.status(400).json("Invalid password");
+      return res.status(400).json({ error: "Senha inválida." });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.SECRET, {
@@ -67,7 +67,7 @@ const login = async (req, res) => {
     });
     return res.status(201).json({ auth: true, token: token });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ error: "Erro ao acessar a conta." });
   }
 };
 
@@ -76,7 +76,7 @@ const users = async function (req, res) {
     const users = await User.find({});
     return res.status(200).json(users);
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ error: "Erro ao buscar entidades." });
   }
 };
 
@@ -101,11 +101,11 @@ const deleteUser = async function (req, res) {
     const { _id } = req.params;
     await User.deleteOne({ _id });
     if (!_id) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ error: "Usuário não encontrado." });
     }
     return res.status(200).json({ message: "Usuário deletado com sucesso." });
   } catch (error) {
-    console.log(error.message);
+    return res.status(500).json({ error: "Erro ao deletar o usuário." });
   }
 };
 

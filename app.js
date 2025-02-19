@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+var cors = require('cors')
 const dotenv = require('dotenv')
 const user = require('./routes/user.route')
 const agendamento = require('./routes/agendamento.route')
@@ -13,9 +14,9 @@ db()
 app.use(express.json())
 app.use(user)
 app.use(agendamento)
-
+app.use(cors())
 
 
 app.listen(8082, () => {
-  console.log("Servidor rodando em porta 8081.");
+  console.log("Servidor rodando em porta 8082.");
 });

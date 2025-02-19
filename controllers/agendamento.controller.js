@@ -14,8 +14,7 @@ const agendamento = async function (req, res) {
     });
     res.status(201).json(novoAgendamento);
   } catch (error) {
-    res.json({ message: "Erro ao agendar." });
-    console.log(error);
+    res.json({ error: "Erro ao agendar." });
   }
 };
 
@@ -29,8 +28,7 @@ const minhasConsultas = async function (req, res) {
 
     res.status(200).json(meusAgendamentos);
   } catch (error) {
-    res.status(500).json({ message: "Erro ao buscar consultas." });
-    console.log(error);
+    res.status(500).json({ error: "Erro ao buscar consultas." });
   }
 };
 
@@ -43,8 +41,7 @@ const meusPacientes = async function (req, res) {
   
       res.status(200).json(meusAgendamentos);
     } catch (error) {
-      res.status(500).json({ message: "Erro ao buscar agendamentos." });
-      console.log(error);
+      res.status(500).json({ error: "Erro ao buscar agendamentos." });
     }
   };
 
