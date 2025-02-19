@@ -15,7 +15,7 @@ app.use(express.json())
 app.use('/uploads', express.static('uploads'));
 app.use(user)
 app.use(agendamento)
-app.use(cors())
+app.use(cors());
 
 
 app.listen(8082, () => {
