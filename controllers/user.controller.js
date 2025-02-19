@@ -19,7 +19,7 @@ const register = async function (req, res) {
     if (senha !== confirmarSenha) {
       return res.status(400).json({ message: "As senhas não coincidem." });
     }
-    
+
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
@@ -80,10 +80,25 @@ const users = async function (req, res) {
   }
 };
 
+const consultarMedico = async function (req, res) {
+  try {
+    const { nome, especialidade } = req.query;
+    const filtro = { type: "Médico" };
+
+    if (nome) filtro.nome = { $regex: new RegExp(nome, "i") };;
+    if (especialidade) filtro.especialidade = { $regex: new RegExp(especialidade, "i") };;
+    const getDoc = await User.find(filtro);
+
+    res.status(200).json(getDoc);
+  } catch (error) {
+    consoler.log(error);
+    res.status(500).json({ error: "Erro ao encontrar este médico." });
+  }
+};
+
 const deleteUser = async function (req, res) {
   try {
     const { _id } = req.params;
-    console.log(_id);
     await User.deleteOne({ _id });
     if (!_id) {
       return res.status(404).json({ message: "Usuário não encontrado." });
@@ -98,4 +113,11 @@ const bemVindo = async (req, res) => {
   const user = await User.findById(req.user.id);
   res.json({ message: `Bem-vindo, ${user.nome}!` });
 };
-module.exports = { register, users, login, deleteUser, bemVindo };
+module.exports = {
+  register,
+  users,
+  login,
+  deleteUser,
+  bemVindo,
+  consultarMedico,
+};
