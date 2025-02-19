@@ -87,7 +87,7 @@ const consultarMedico = async function (req, res) {
 
     if (nome) filtro.nome = { $regex: new RegExp(nome, "i") };;
     if (especialidade) filtro.especialidade = { $regex: new RegExp(especialidade, "i") };;
-    const getDoc = await User.find(filtro);
+    const getDoc = await User.find(filtro).select("-senha, -confirmarSenha");
 
     res.status(200).json(getDoc);
   } catch (error) {
