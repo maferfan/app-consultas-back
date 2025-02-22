@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",                        // Define o nível de JavaScript de saída
+    "module": "commonjs",                       // Módulo comum para Node.js
+    "outDir": "./dist",                         // Diretório para os arquivos compilados
+    "rootDir": "./src",                         // Diretório com os arquivos fontes
+    "esModuleInterop": true,                    // Permite importar módulos CommonJS
+    "strict": true,                             // Ativa a verificação rigorosa de tipos
+    "skipLibCheck": true,                       // Ignora a verificação de tipos em arquivos de declaração
+    "forceConsistentCasingInFileNames": true,   // Garante consistência no nome de arquivos
+    "resolveJsonModule": true                   // Permite importar arquivos JSON
+  },
+  "include": ["src/**/*.ts"],                   // Incluir todos os arquivos TypeScript na pasta src
+  "exclude": ["node_modules", "dist"]           // Excluir node_modules e a pasta dist
+}
