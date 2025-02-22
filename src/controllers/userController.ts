@@ -97,7 +97,8 @@ const users = async (req: Request, res: Response): Promise<Response> => {
 };
 
 const verificarImagem = (url: string) => {
-  const imagePath = path.join(__dirname, "../uploads", url);
+  const imagePath = path.join(__dirname, "../../uploads", url);
+  console.log(imagePath)
   if (fs.existsSync(imagePath)) {
     return url;
   }
